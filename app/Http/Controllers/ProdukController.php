@@ -6,6 +6,7 @@ use App\Models\produk;
 use App\Http\Requests\StoreProdukRequest;
 use App\Http\Requests\UpdateProdukRequest;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class ProdukController extends Controller
@@ -70,5 +71,18 @@ class ProdukController extends Controller
             return redirect('/produk');
     }
 
+        public function ViewLaporan()
+        {
+            $products = Produk::all();
+            return view('laporan', ['products' => $products]);
+        }
 
+        public function print()
+    {
+        $products = Produk::all();
+
+        $pdf = Pdf::loadView('report', compact('products'));
+
+        return $pdf->stream('laporan-produk.pdf');
+    }
 }

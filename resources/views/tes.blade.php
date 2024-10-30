@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard Penjualan</title>
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -13,10 +14,10 @@
     <div class="sidebar">
         <h2>Dashboard Penjualan</h2>
         <ul>
-            <li><a href="{{ url('contoh')}}">Home</a></li>
+            <li><a href="{{ url('tes')}}">Home</a></li>
             <li><a href="{{ url('produk')}}">Produk</a></li>
             <li><a href="#">Penjualan</a></li>
-            <li><a href="#">Laporan</a></li>
+            <li><a href="{{ url('laporan')}}">Laporan</a></li>
             <li><a href="#">Pengaturan</a></li>
         </ul>
     </div>
@@ -52,9 +53,16 @@
         <!-- Sales Chart -->
         <div id="chart">
             <h2>Grafik Penjualan</h2>
-            <canvas id="salesChart"></canvas>
+            {{-- <canvas id="salesChart"></canvas> --}}
+            {!! $chart->container() !!}
         </div>
     </div>
+
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
+    <footer>
+        <p>&copy; 2024 Aplikasi Penjualan. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
