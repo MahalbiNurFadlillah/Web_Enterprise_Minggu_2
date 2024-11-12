@@ -100,16 +100,20 @@ class ProdukController extends Controller
     }
     public function ViewLaporan()
     {
-        $products = Produk::all();
+        $isAdmin = Auth::user()->role == 'admin';
+        // jika user adalah admin, maka tampilkan semua data, jika bukan admin, maka tampilkan data dengan user_id yang sama dengan user yang login
+        $products = $isAdmin ? Produk::all() : Produk::where('user_id', Auth::user()->id)->get();
         return view('laporan', ['products' => $products]);
+
     }
     public function print()
     {
-        // Mengambil semua data produk
-        $products = Produk::all();
+        $isAdmin = Auth::user()->role == 'admin';
+        // jika user adalah admin, maka tampilkan semua data, jika bukan admin, maka tampilkan data dengan user_id yang sama dengan user yang login
+        $products = $isAdmin ? Produk::all() : Produk::where('user_id', Auth::user()->id)->get();
 
         // Load view untuk PDF dengan data produk
-        $pdf = Pdf::loadView('report', ['products' => $products]);
+        $pdf = Pdf::loadView('report', compact('products'));
 
         // Menampilkan PDF langsung di browser
         return $pdf->stream('laporan-produk.pdf');

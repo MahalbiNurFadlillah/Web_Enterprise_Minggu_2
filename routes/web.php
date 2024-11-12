@@ -16,8 +16,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class,'logout']);
 
 // Route untuk user tanpa prefix
-Route::middleware(['auth', 'user-access:user'])->group(function () {
-    Route::get('/user/home', [ContohController::class, 'TampilContoh']);
+Route::middleware(['auth', 'user-access:user'])->prefix('user')->group(function () {
+    Route::get('/home', [ContohController::class, 'TampilContoh']);
     Route::get('/produk', [ProdukController::class, 'ViewProduk']);
     Route::get('/produk/add', [ProdukController::class, 'ViewAddProduk']);
     Route::post('/produk/add', [ProdukController::class, 'CreateProduk']);

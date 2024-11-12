@@ -117,10 +117,10 @@
     <div class="sidebar">
         <h2>Dashboard Penjualan</h2>
         <ul>
-            <li><a href="{{ url('tes') }}">Home</a></li>
-            <li><a href="{{ url('produk') }}">Produk</a></li>
+            <li><a href="{{url(Auth::user()->role.'/home') }}">Home</a></li>
+            <li><a href="{{url(Auth::user()->role.'/produk') }}">Produk</a></li>
             <li><a href="#">Penjualan</a></li>
-            <li><a href="{{ url('laporan') }}">Laporan</a></li>
+            <li><a href="{{url(Auth::user()->role.'/laporan') }}">Laporan</a></li>
             <li><a href="#">Pengaturan</a></li>
         </ul>
     </div>
@@ -154,7 +154,8 @@
                     @endforeach
                 </tbody>
             </table>
-            <a href="{{ url('report') }}" class="btn btn-secondary w-100 d-flex justify-content-center align-items-center text-white cursor-pointer">Export to PDF</a>
+            <a href="{{url(Auth::user()->role.'/report') }}"
+            class="btn btn-secondary w-100 d-flex justify-content-center align-items-center text-white cursor-pointer">Export to PDF</a>
         </div>
     </div>
 </body>
