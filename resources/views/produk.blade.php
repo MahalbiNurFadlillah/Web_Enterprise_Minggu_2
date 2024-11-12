@@ -38,7 +38,7 @@
             @foreach ($produk as $item)
 
             <div class="product-card">
-                <img src="{{ url('storage/public/image/' . $item->image) }}" alt="produk 1">
+                <img src="{{ url('storage/public/images/' . $item->image) }}" alt="produk 1">
                 <h3>{{ $item->nama_produk }}</h3>
                 <p class="price">{{ $item->harga }}</p>
                 <p class="description">{{ $item->deskripsi }}</p>

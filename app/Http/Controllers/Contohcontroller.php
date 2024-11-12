@@ -6,16 +6,24 @@ use App\Models\Produk;
 use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContohController extends Controller
 {
     public function TampilContoh()
     {
+        $isAdmin = Auth::user()->role === 'admin';
+
         // Ambil produk dari database dan kelompokkan berdasarkan tanggal
-        $produkPerHari = Produk::selectRaw('DATE(created_at) as date, COUNT(*) as total')
+        $produkPerHariQuery = Produk::selectRaw('DATE(created_at) as date, COUNT(*) as total')
             ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->get();
+            ->orderBy('date', 'asc');
+
+        if (!$isAdmin) {
+            $produkPerHariQuery->where('user_id', Auth::id());
+        }
+
+        $produkPerHari = $produkPerHariQuery->get();
 
         // Memisahkan data untuk grafik
         $dates = [];
@@ -34,14 +42,20 @@ class ContohController extends Controller
             ->setXAxis($dates);
 
         // Data tambahan untuk view
+        $totalproductsQuery = Produk::query();
+
+        if (!$isAdmin) {
+            $totalproductsQuery->where('user_id', Auth::id());
+        }
+
         $data = [
-            'totalproducts' => Produk::count(), // Total produk
+            'totalproducts' => $totalproductsQuery->count(), // Total produk
             'salesToday' => 130, // Contoh data lainnya
             'totalRevenue' => 'Rp 75,000,000',
             'registeredUsers' => 350,
             'chart' => $chart // Pass chart ke view
         ];
 
-        return view('tes',$data);
-}
+        return view('tes', $data);
+    }
 }
